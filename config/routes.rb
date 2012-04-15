@@ -14,6 +14,7 @@ Digg::Application.routes.draw do
   resources :redis_infos do
     collection do
       get 'index'
+      get 'terminal'
     end
   end
 

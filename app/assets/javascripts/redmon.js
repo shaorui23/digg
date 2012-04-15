@@ -67,12 +67,12 @@ var Redmon = (function() {
       , current = {};
 
     function init() {
-      ['dashboard', 'keys', 'cli', 'config'].forEach(function(el) {
-        mapping[el] = $('#'+el)
-        mapping[el].click(onNavClick);
-      });
-      current.tab   = mapping.dashboard;
-      current.panel = $('.viewport .dashboard');
+    //['dashboard', 'keys', 'cli', 'config'].forEach(function(el) {
+    //  mapping[el] = $('#'+el)
+    //  mapping[el].click(onNavClick);
+    //});
+    //current.tab   = mapping.dashboard;
+    //current.panel = $('.viewport .dashboard');
 
       $('#flush-btn').click(function() {
         $('#flush-confirm').modal({
@@ -118,7 +118,7 @@ var Redmon = (function() {
     }
 
     function onBtnClick(cmd) {
-      $.ajax({url: 'cli?command='+cmd});
+      $.ajax({url: 'terminal?command='+cmd});
     }
 
     return {
@@ -432,7 +432,7 @@ var Redmon = (function() {
       }
 
       $.ajax({
-        url     : 'cli?command='+command,
+        url     : 'terminal?command='+command,
         success :  callback
       });
     }

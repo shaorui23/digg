@@ -1,0 +1,18 @@
+<% if @cmd == :info %>
+  <% @result.each do |item| %>
+    <span><%= item.join ":" %></span>
+  <% end %>
+<% elsif @result.respond_to? :each_with_index %>
+  <% @result.each_with_index do |item, index| %>
+    <span><%= "#{index+1} \"#{item} \"" %></span>
+    <br>
+  <% end %>
+<% elsif @result.is_a? Fixnum%>
+  <span><%= "(integer) #{@result}" %></span>
+  <br>
+<% else%>
+  <% unquoted = %w{string OK} << '(empty list or set)' %>
+  <% @result = "\"#{@result}\"" unless unquoted.include? @result %>
+  <span><%= @result %></span>
+  <br>
+<% end %>

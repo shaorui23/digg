@@ -34,6 +34,7 @@
             <li><%= link_to "Sets", {:action => :index, :controller => :products} %></li>
             <li><%= link_to "List" %></li>
             <li><%= link_to "Hash" %></li>
+            <li><%= link_to "Terminal", {:action => :terminal, :controller => :redis_infos} %></li>
           </ul>
         </div>
       </div>
@@ -46,15 +47,37 @@
       <div class="span3">
         <h2>About Us</h2>
         Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        <div class="btns">
+          <button class="btn primary" id="flush-btn">FlushDB</button>
+          <button class="btn primary" id="reset-btn">ResetDB</button>
+        </div>
       </div>
     </div>
   </div>
+
+   <div class='modal hide' id='flush-confirm'>
+      <div class='modal-header'>
+        <a class='close' data-dismiss="modal">x</a>
+        <h3>Flush DB</h3>
+      </div>
+      <div class='modal-body'>
+        <p>This action will, without a doubt, delete all the keys of the redis server.</p>
+      </div>
+      <div class='modal-footer'>
+        <button class='btn secondary' id='flush-cancel-btn'>Well On Second Though</button>
+        <button class='btn danger' id='flush-confirm-btn'>Just Do It Already!</button>
+      </div>
+    </div>
+  
 </body>
 </html>
 <script type='text/javascript'>
   //<![CDATA[
     $(document).ready(function() {
       Redmon.init({
+      //pollInterval : #{poll_interval},
+      //cliPrompt    : "#{prompt}"
+        cliPrompt    :  "127.0.0.1:6379"
       });
     });
   //]]>
