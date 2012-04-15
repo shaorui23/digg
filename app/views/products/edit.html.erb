@@ -1,0 +1,43 @@
+<table class="table table-condensed">
+  <tbody>
+    <tr>
+      <td style="width: 30%">Type</td>
+      <td><%= @product.id %></td>
+    </tr>
+    <tr>
+      <td style="width: 30%">TTL</td>
+      <td><%= @product.id %></td>
+    </tr>
+    <tr>
+      <td style="width: 30%">Encoding</td>
+      <td><%= "Redis List" %></td>
+    </tr>
+    <tr>
+      <td style="width: 30%">Size</td>
+      <td><%= @product.redis_value.split(',').size %></td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="widget">
+  <div class="header">
+    <h4>Values</h4>
+  </div>
+  <table class="table condensed-table" id="config-table">
+    <tbody>
+      <% @product.redis_value.split(",").each_with_index do |v, index| %>
+        <tr>
+          <td style="width: 30%">Index:<%= index + 1 %></td>
+          <td>
+            <div class="editable" id=<%= index %> style="background-color: transparent; "><%= v %></div>
+          </td>
+          <td>
+            <%= link_to 'Edit', {:action => :edit_redis_value ,:id => @product.id, :index => index, :controller => :products}, :class => 'btn btn-mini' %>
+            <%= link_to 'Destroy', {:action => :destroy_redis_value, :id => @product.id, :index => index, :value => v, :controller => :products}, :confirm => 'Are you sure?', :class => 'btn btn-mini btn-danger' %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%= link_to 'Add Value', {:action => :add_redis_value, :id => @product.id, :controller => :products}, :class => 'btn btn-primary' %>
+</div>

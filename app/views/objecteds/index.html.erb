@@ -1,0 +1,26 @@
+<h1>Objecteds</h1>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>ListForRedis</th>
+      <th>Created at</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @objecteds.each do |objected| %>
+      <tr>
+        <td><%= objected.id %></td>
+        <td><%= objected.prefix_list_for_redis %></td>
+        <td><%= objected.created_at %></td>
+        <td>
+          <%= link_to 'Edit', edit_objected_path(objected), :class => 'btn btn-mini' %>
+          <%= link_to 'Destroy', objected_path(objected), :method => :delete, :confirm => 'Are you sure?', :class => 'btn btn-mini btn-danger' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to 'New', new_objected_path, :class => 'btn btn-primary' %>

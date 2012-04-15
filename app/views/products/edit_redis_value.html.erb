@@ -1,0 +1,12 @@
+
+<%= form_for @value, :html => { :class => 'form-horizontal' } do |f| %>
+  <fieldset>
+    <div class="control-group">
+      <%= f.label "Index", :class => 'control-label' %>
+      <div class="controls">
+        <%= f.text_field @value, :class => 'text_field' %>
+        <%= link_to 'Destroy', {:action => :destroy_redis_value, :id => @product.id, :value => f, :controller => :products}, :confirm => 'Are you sure?', :class => 'btn btn-mini btn-danger' %>
+      </div>
+    </div>
+  </fieldset>
+<% end %>

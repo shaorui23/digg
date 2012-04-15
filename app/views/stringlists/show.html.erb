@@ -1,0 +1,13 @@
+<h1>Stringlist</h1>
+<fieldset>
+  <dl>
+    <dt class="key_field label string_type"><label>Key<dd><pre class="prettyprint"><%= @stringlist.redis_key %></dd></pre></label></dt>
+    <dt class="value_field label string_type"><label>Value<dd><pre class="prettyprint"><%= @stringlist.redis_value %></dd></pre></label></dt>
+  </dl>
+</fieldset>
+
+<div class="form-actions">
+  <%= link_to 'Back', stringlists_path, :class => 'btn'  %>
+  <%= link_to 'Edit', edit_stringlist_path(@stringlist), :class => 'btn' %>
+  <%= link_to 'Delete', stringlist_path(@stringlist), :method => 'delete', :confirm => 'Are you sure?', :class => 'btn btn-danger' %>
+</div>

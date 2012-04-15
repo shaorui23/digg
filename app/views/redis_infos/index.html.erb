@@ -1,0 +1,19 @@
+<h1>Redis Infomations</h1>
+
+<table class="table table-condensed table-striped">
+  <thead>
+    <tr>
+      <th><h2>...</h2></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% (0..@info.size).step(2) do |a| %>
+      <tr>
+        <% @info.to_a.slice(a, 2).each do |v| %>
+          <td><strong><%= v[0].titleize %></strong></td>
+          <td><em><%= v[1] %></em></td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

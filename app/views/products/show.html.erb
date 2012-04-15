@@ -1,0 +1,14 @@
+<h1>Product</h1>
+
+<fieldset>
+  <dl>
+    <dt class="key_field label string_type"><label>Key<dd><pre class="prettyprint"><%= @product.redis_key %></dd></pre></label></dt>
+    <dt class="value_field label string_type"><label>Value<dd><pre class="prettyprint"><%= @product.redis_value %></dd></pre></label></dt>
+  </dl>
+</fieldset>
+
+<div class="form-actions">
+  <%= link_to 'Back', products_path, :class => 'btn'  %>
+  <%= link_to 'Edit', edit_product_path(@product), :class => 'btn' %>
+  <%= link_to 'Delete', product_path(@product), :method => 'delete', :confirm => 'Are you sure?', :class => 'btn btn-danger' %>
+</div>
