@@ -3,6 +3,8 @@ Digg::Application.routes.draw do
 
   resources :objecteds
 
+  resources :records
+
   resources :products do
     member do
       get "edit_redis_value"
@@ -13,7 +15,10 @@ Digg::Application.routes.draw do
 
   resources :redis_infos do
     collection do
+      get "export"
+      get "import"
       get 'index'
+      get 'graph'
       get 'terminal'
     end
   end

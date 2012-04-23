@@ -15,6 +15,14 @@ class Stringlist < ActiveRecord::Base
     Redis.current.set(self.redis_key, str)
   end
 
+  def type
+    Redis.current.type self.redis_key
+  end
+
+  def ttl
+    Redis.current.ttl self.redis_key
+  end
+
   # => Example
   # Redis.current.set("string:1:key", "value")
   #

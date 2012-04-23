@@ -1,4 +1,4 @@
-<h1>Redis String</h1>
+<h1>Redis Set</h1>
 
 <form class="navbar-search pull-right"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div>
   <div class="well">
@@ -20,20 +20,20 @@
     </tr>
   </thead>
   <tbody>
-    <% @stringlists.each do |stringlist| %>
+    <% @sets.each do |s| %>
       <tr>
-        <td><%= link_to stringlist.redis_key, stringlist_path(stringlist) %></td>
-        <td><%= stringlist.redis_value %></td>
-        <td><%= stringlist.type %></td>
-        <td><%= stringlist.ttl %></td>
-        <td><%= time_ago_in_words stringlist.created_at %></td>
+        <td><%= link_to s.redis_key, record_path(s) %></td>
+        <td><%= s.redis_value %></td>
+        <td><%= s.type %></td>
+        <td><%= s.ttl %></td>
+        <td><%= time_ago_in_words s.created_at %></td>
         <td>
-          <%= link_to 'Edit', edit_stringlist_path(stringlist), :class => 'btn btn-mini' %>
-          <%= link_to 'Destroy', stringlist_path(stringlist), :method => :delete, :confirm => 'Are you sure?', :class => 'btn btn-mini btn-danger' %>
+          <%= link_to 'Edit', edit_record_path(s), :class => 'btn btn-mini' %>
+          <%= link_to 'Destroy', record_path(s), :method => :delete, :confirm => 'Are you sure?', :class => 'btn btn-mini btn-danger' %>
         </td>
       </tr>
     <% end %>
   </tbody>
 </table>
 
-<%= link_to 'New', new_stringlist_path, :class => 'btn btn-primary' %>
+<%= link_to 'New', new_record_path, :class => 'btn btn-primary' %>

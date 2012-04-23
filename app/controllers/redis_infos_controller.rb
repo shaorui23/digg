@@ -4,6 +4,29 @@ class RedisInfosController < ApplicationController
     @info = Redis.current.info
   end
 
+  def graph
+    @info = Redis.current.info
+  end
+  
+  def export
+    begin 
+      # should return true
+      %x[redis-dump -u 127.0.0.1:6379 > ~/Desktop/test.json]
+      redirect_to redis_infos_path
+    rescue => e
+      puts "!!! Can not export file !!!"
+    end
+  end
+
+  def import
+    begin
+      system(%[cat ~/Desktop/test.json | redis-load])
+      redirect_to redis_infos_path
+    rescue => e
+      puts "!!! Can not import file !!!"
+    end
+  end
+
   def terminal
     unless params[:command].nil?
       args = params[:command].split

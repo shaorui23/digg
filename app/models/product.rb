@@ -10,6 +10,15 @@ class Product < ActiveRecord::Base
     Redis.current.lrange(self.redis_key, 0, -1).join(",")
   end
 
+  def type
+    Redis.current.type self.redis_key
+  end
+
+  def ttl
+    Redis.current.ttl self.redis_key
+  end
+  
+
   # => Example
   # Redis.current.set("list:1:key", "value")
   #

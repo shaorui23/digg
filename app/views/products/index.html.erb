@@ -2,9 +2,10 @@
 <table class="table table-striped">
   <thead>
     <tr>
-      <th>ID</th>
       <th>Key</th>
       <th>Value</th>
+      <th>type</th>
+      <th>TTL</th>
       <th>Created at</th>
       <th>Actions</th>
     </tr>
@@ -12,9 +13,10 @@
   <tbody>
     <% @products.each do |product| %>
       <tr>
-        <td><%= product.id %></td>
         <td><%= link_to product.redis_key, product_path(product) %></td>
         <td><%= product.redis_value %></td>
+        <td><%= product.type %></td>
+        <td><%= product.ttl %></td>
         <td><%= time_ago_in_words product.created_at %></td>
         <td>
           <%= link_to 'Edit', edit_product_path(product), :class => 'btn btn-mini' %>
