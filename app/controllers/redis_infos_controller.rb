@@ -1,10 +1,34 @@
+# coding: utf-8  
 class RedisInfosController < ApplicationController
 
   def index
     @info = Redis.current.info
+    add_breadcrumb "首页", "/redis_infos"
+    add_breadcrumb "Redis 信息", "/redis_infos"
+    $data = []
+
+    types = []
+    Redis.current.keys.each do |key|
+      types.push(Redis.current.type(key).to_s)
+    end
+    types.uniq!
+
+    types.each do |type|
+      temp = []
+      num = 0
+      temp.push type.to_s
+      Redis.current.keys.each do |key|
+        num += 1 if type == Redis.current.type(key)
+      end
+      temp.push (num/Redis.current.keys.count.to_f)
+      $data.push(temp)
+    end
   end
 
   def graph
+    add_breadcrumb "首页", "/redis_infos"
+    add_breadcrumb "Redis 信息", "/redis_infos"
+    add_breadcrumb "Redis 图表"
     @info = Redis.current.info
   end
   
@@ -28,6 +52,9 @@ class RedisInfosController < ApplicationController
   end
 
   def terminal
+    add_breadcrumb "首页", "/redis_infos"
+    add_breadcrumb "Redis 信息", "/redis_infos"
+    add_breadcrumb "Redis 命令行"
     unless params[:command].nil?
       args = params[:command].split
       @cmd = args.shift.downcase.intern

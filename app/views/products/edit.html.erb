@@ -1,12 +1,13 @@
+<h4>Key : <%= @product.redis_key %></h4>
 <table class="table table-condensed">
   <tbody>
     <tr>
       <td style="width: 30%">Type</td>
-      <td><%= @product.id %></td>
+      <td><%= @product.type %></td>
     </tr>
     <tr>
       <td style="width: 30%">TTL</td>
-      <td><%= @product.id %></td>
+      <td><%= @product.ttl %></td>
     </tr>
     <tr>
       <td style="width: 30%">Encoding</td>
@@ -29,15 +30,91 @@
         <tr>
           <td style="width: 30%">Index:<%= index + 1 %></td>
           <td>
-            <div class="editable" id=<%= index %> style="background-color: transparent; "><%= v %></div>
+            <div class="editable" id=<%= index %>><%= v %></div>
           </td>
           <td>
-            <%= link_to 'Edit', {:action => :edit_redis_value ,:id => @product.id, :index => index, :controller => :products}, :class => 'btn btn-mini' %>
-            <%= link_to 'Destroy', {:action => :destroy_redis_value, :id => @product.id, :index => index, :value => v, :controller => :products}, :confirm => 'Are you sure?', :class => 'btn btn-mini btn-danger' %>
+            <%= link_to "Delete", {:action => "destroy_redis_value", :id => @product.id, :index => index, :value => v, :controller => :products}, :confirm => "Are you sure?" %>
           </td>
         </tr>
       <% end %>
     </tbody>
   </table>
-  <%= link_to 'Add Value', {:action => :add_redis_value, :id => @product.id, :controller => :products}, :class => 'btn btn-primary' %>
+  <div class="btns">
+    <button class="btn btn-primary" id="add-value">Add Value</button>
+    <%= link_to "Back", products_path, {:class => "btn btn-primary"} %>
+  </div>
 </div>
+
+<div class='modal hide' id='add-value-confirm'>
+  <div class='modal-header'>
+    <a class='close' data-dismiss="modal">x</a>
+    <h3>Add Value</h3>
+  </div>
+  <div class='modal-body'>
+    <form class="well">
+      <label>List Value</label>
+      <input type="text" class="span3" id="redis_value_input">
+    </form>
+  </div>
+  <div class='modal-footer'>
+    <button class='btn btn-secondary' id='add-value-cancel-btn'>Cancel</button>
+    <button class='btn btn-primary' id='add-value-confirm-btn'>Submit</button>
+  </div>
+</div>
+
+
+<script type='text/javascript'>
+  $('#add-value').click(function() {
+    $('#add-value-confirm').modal({
+      backdrop: true,
+      keyboard: true
+    });
+  });
+
+  $('#add-value-cancel-btn').click(function(){
+    $('#add-value-confirm').modal('hide');
+  });
+
+  $('#add-value-confirm-btn').click(function() {
+    var id = <%= @product.id %>;
+    var value = document.getElementById("redis_value_input").value;
+    $.ajax({
+      url     : 'add_redis_value?value='+value+'&id='+id,
+      success : function(){
+        $('#add-value-confirm').modal('hide');
+         window.location.reload();
+      }
+    });
+  });
+    
+  //////////////////////////////////////////////////////////////////////
+  // encapsulate the config widget
+  var configWidget = (function() {
+    function render(data) {
+      $('#config-table .editable').each(function() {
+        var editable = $(this)
+          , index = editable.attr('id');
+        var product_id = <%= @product.id %>;
+
+        var config = {
+          url           : '/products/' + product_id + '/save_redis_value',
+          element_id    : 'id',
+          params        : 'index='+ index,
+          update_value  : 'value',
+          show_buttons  :  true,
+          save_button   : '<button style="margin-left:5px;"class="btn btn-primary">Save</button>',
+          cancel_button : '<button class="btn">Cancel</button>',
+          default_text  : '&nbsp'
+        };
+
+        editable.editInPlace(config);
+      });
+    }
+
+    return {
+      render: render
+    }
+  })();
+
+  configWidget.render()
+</script>

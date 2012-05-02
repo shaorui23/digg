@@ -97,6 +97,13 @@ class ProductsController < ApplicationController
    #Redis.current.lset(key, params[:index], params[:value])
   end
 
+  def save_redis_value
+    @product = Product.find(params[:id]) 
+    Redis.current.lset(@product.redis_key, params[:index], params[:value])
+
+    render :text => params[:value] 
+  end
+
   def add_redis_value
     @product = Product.find(params[:id]) 
     Redis.current.rpush(@product.redis_key, params[:value])
@@ -112,7 +119,7 @@ class ProductsController < ApplicationController
     Redis.current.lrem(@product.redis_key, params[:index], params[:value])
 
     respond_to do |format|
-      format.html { redirect_to @product, notice: 'Value was successfully deleted.' }
+      format.html { redirect_to edit_product_path, notice: 'Value was successfully deleted.' }
       format.json { head :no_content }
     end
   end

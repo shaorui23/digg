@@ -6,6 +6,8 @@ class StringlistsController < ApplicationController
   # GET /stringlists
   # GET /stringlists.json
   def index
+    add_breadcrumb "Home", "/redis_infos"
+    add_breadcrumb "String", "/stringlists"
     @stringlists = Stringlist.all
 
     respond_to do |format|

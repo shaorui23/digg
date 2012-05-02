@@ -7,7 +7,7 @@
   <![endif]-->
   <%= stylesheet_link_tag    "application", :media => "all" %>
   <%= javascript_include_tag "application" %>
-  <%= javascript_include_tag "jquery-1.7.1.min.js", "highcharts.js" %>
+  <%= javascript_include_tag "highcharts.js" %>
   <%= csrf_meta_tags %>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
@@ -45,15 +45,17 @@
   </div>
 
   <div class="container">
+    <%= render_breadcrumbs %>
     <div class="row">
       <div class="span9"><%= yield %></div>
       <div class="span3">
         <h2>About <%= image_tag("logo4.png") %> </h2>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-        <div class="btns">
-          <button class="btn primary" id="flush-btn">FlushDB</button>
-          <button class="btn primary" id="reset-btn">ResetDB</button>
-        </div>
+        <dl>
+        <dt><h3>Why SmartRedis comes here</h3></dt>
+        <dd>SmartRedis is a useful web interface to manage Redis databases. There are many commands in controlling Redis database, but they are too complicated for us. SmartRedis can solve the problems by providing graphical tool for you to avoid plenty of commands. It also providing the command line interface if you really to handle it by inputing the commands.</dd>
+        <dt><h3>Contributing for SmartRedis</h3></dt>
+        <dd>  <span class="label label-info">Good</span>This code is being developed and maintained by Eric. You can send comments, patches, questions here on github or to <a href="shaorui23@gmail.com.">shaorui23@gmail.com</a></dd>
+        </dl>
       </div>
     </div>
   </div>
@@ -64,11 +66,11 @@
         <h3>Flush DB</h3>
       </div>
       <div class='modal-body'>
-        <p>This action will, without a doubt, delete all the keys of the redis server.</p>
+        <p>执行该命令将会删除所有在Redis服务器上的key，确定要删除吗？</p>
       </div>
       <div class='modal-footer'>
-        <button class='btn secondary' id='flush-cancel-btn'>Well On Second Though</button>
-        <button class='btn danger' id='flush-confirm-btn'>Just Do It Already!</button>
+        <button class='btn btn-secondary' id='flush-cancel-btn'>取消</button>
+        <button class='btn btn-danger' id='flush-confirm-btn'>确定</button>
       </div>
     </div>
   
@@ -116,18 +118,31 @@
         series: [{
           type: 'pie',
           name: 'Browser share',
+          //data: <%= @data %>
           data: [
-            ['String',   45.0],
-            ['Set',       26.8],
-            {
-              name: 'Hash',
-              y: 12.8,
-              sliced: true,
-              selected: true
-            },
-            ['Sorted Set',    8.5],
-            ['List',     6.9]
+            <% b = 0%>
+            <% unless $data.nil? %>
+              <% $data.each_with_index do |data,index| %>
+                {
+                  name: "<%= data.first %>",
+                  y: <%= index == ($data.count-1) ? (1-b).round(2) : (data.last).round(2)%>
+                },
+                <% b += data.last.round(2) %>
+              <% end %>
+            <% end %>
           ]
+        //data: [
+        //  ['String',   45.0],
+        //  ['Set',       26.8],
+        //  {
+        //    name: 'Hash',
+        //    y: 12.8,
+        //    sliced: true,
+        //    selected: true
+        //  },
+        //  ['Sorted Set',    8.5],
+        //  ['List',     6.9]
+        //]
         }]
       });
 
@@ -171,23 +186,16 @@
             return Highcharts.dateFormat("%B %e %Y", this.x) + ': ' +
               '$' + Highcharts.numberFormat(this.y, 2);
           }
-        },  
+        }, 
         series: [
             {
-              name: "First",
-              pointInterval: <%= 1.day * 1000 %>,
-              pointStart: <%= 3.weeks.ago.to_i * 1000 %>,
-              data: [2,4,9,6,8,10,6,4,2]
-            },
-            {
-              name: "Second",
-              pointInterval: <%= 1.day * 1000 %>,
-              pointStart: <%= 3.weeks.ago.to_i * 1000 %>,
-              data: [1,3,2,5,7,10,5,3,1]
+              name: "Memory Used",
+              pointInterval: <%= 10 * 1000 %>,
+              pointStart: <%= 10 * 1000 %>,
+              data: [<%= Redis.current.info["used_memory"] %>]
             }
         ]
       });
-      
     });
   //]]>
 </script>

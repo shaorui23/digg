@@ -13,10 +13,10 @@ var Redmon = (function() {
     config = opts;
     toolbar.init();
     cli.init();
-    requestData(100, function(data) {
-      renderDashboard(data);
-      poll();
-    });
+  //requestData(100, function(data) {
+  //  renderDashboard(data);
+  //  poll();
+  //});
   }
 
   /**
@@ -26,7 +26,7 @@ var Redmon = (function() {
     memoryWidget.render(data);
     keyspaceWidget.render(data);
     infoWidget.render(data);
-    configWidget.render();
+    //configWidget.render();
   }
 
   /**
@@ -383,7 +383,7 @@ var Redmon = (function() {
 
         var config = {
           url           : '/products',
-          element_id    : 'param',
+          element_id    : '0',
           update_value  : 'value',
           show_buttons  :  true,
           save_button   : '<button style="margin-left:5px;"class="btn primary">Save</button>',
