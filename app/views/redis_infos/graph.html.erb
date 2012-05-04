@@ -5,11 +5,16 @@
       <div class='span15'>
         <div class='widget'>
           <div class='headbar'>
-            <h2>DataUse</h2>
+            <h3>Redis DataType Use</h3>
           </div>
-          <div id='redis_use' style='width:880px;height:325px'>></div>
+          <div id='redis_use' style='width:400px;height:325px; float:left;'>></div>
+          <div id='redis__use' style='width:480px;height:325px; float:right;'>></div>
           <div class='headbar'>
-            <h2>Memory Usage</h2>
+            <h3>Data collect</h3>
+          </div>
+          <div id='data-collect-container' style='width:880px;height:325px'></div>
+          <div class='headbar'>
+            <h3>Memory Usage</h3>
           </div>
           <div id='memory-container' style='width:880px;height:225px'></div>
         </div>
@@ -17,3 +22,225 @@
     </div>
   </div>
 </div>
+
+<script type='text/javascript'>
+  //<![CDATA[
+    $(function() {
+      new Highcharts.Chart({
+        chart: {
+          renderTo: 'redis__use',
+          plotBackgroundColor: null,
+          plotBorderWidth: null,
+          plotShadow: false
+        },
+        title: {
+          text: 'DataType use in Redis Database'
+        },
+        tooltip: {
+          formatter: function() {
+            return '<b>'+ this.point.name +'</b>: '+ this.percentage +' %';
+          }
+        },
+        plotOptions: {
+          pie: {
+            allowPointSelect: true,
+            cursor: 'pointer',
+            dataLabels: {
+              enabled: true,
+              color: '#000000',
+              connectorColor: '#000000',
+              formatter: function() {
+                return '<b>'+ this.point.name +'</b>: '+ this.percentage +' %';
+              }
+            }
+          }
+        },
+        series: [{
+          type: 'pie',
+          name: 'Browser share',
+          //data: <%= @data %>
+          data: [
+            <% b = 0%>
+            <% unless @data.nil? %>
+              <% @data.each_with_index do |data,index| %>
+                {
+                  name: "<%= data.first %>",
+                  y: <%= index == (@data.count-1) ? (1-b).round(2) : (data.last).round(2)%>
+                },
+                <% b += data.last.round(2) %>
+              <% end %>
+            <% end %>
+          ]
+        }]
+      });
+      //////////////////////////////////////////
+      // Keyspace hits (键空间命中次数)
+      // Keyspace misses (键空间不命中次数)
+      // Number of commands processed (执行命令的次数)
+      // Number of connections received (连接服务器的次数)
+      // Number of expired keys (过期key的数量)
+      // Number of rejected connections (被拒绝的连接数量)
+      // Latest fork(2) time(最后执行 fork(2) 的时间)
+      // The aof_delayed_fsync counter(aof_delayed_fsync 计数器的值)
+
+      new Highcharts.Chart({
+        chart: {
+          renderTo: 'data-collect-container',
+          type: 'column'
+        },
+        title: {
+          text: 'Redis Server Configurations'
+        },
+        subtitle: {
+          text: 'You can get them from Redis Server'
+        },
+        xAxis: {
+          categories: [
+            'Keyspace hits',
+            'Keyspace misses',
+            'Number of connections received',
+            'Number of commands processed',
+            'Number of expired keys',
+            'Number of rejected connections'
+          ]
+        },
+        yAxis: {
+          min: 0,
+          title: {
+            text: 'Count (times)'
+          }
+        },
+        legend: {
+          layout: 'vertical',
+          backgroundColor: '#FFFFFF',
+          align: 'left',
+          verticalAlign: 'top',
+          x: 100,
+          y: 70,
+          floating: true,
+          shadow: true
+        },
+        tooltip: {
+          formatter: function() {
+            return ''+
+              this.x +': '+ this.y +' times';
+          }
+        },
+        plotOptions: {
+          column: {
+            pointPadding: 0.2,
+            borderWidth: 0
+          }
+        },
+          series: [
+            {
+              name: 'Counting',
+              data: <%= redis_configurations %>
+            }
+          ]
+      });
+      //////////////////////////////////////////
+      new Highcharts.Chart({
+        chart: {
+          renderTo: 'redis_use',
+          plotBackgroundColor: null,
+          plotBorderWidth: null,
+          plotShadow: false
+        },
+        title: {
+          text: 'DataType use in Redis Database'
+        },
+        tooltip: {
+          formatter: function() {
+            return '<b>'+ this.point.name +'</b>: '+ this.percentage +' %';
+          }
+        },
+        plotOptions: {
+          pie: {
+            allowPointSelect: true,
+            cursor: 'pointer',
+            dataLabels: {
+              enabled: true,
+              color: '#000000',
+              connectorColor: '#000000',
+              formatter: function() {
+                return '<b>'+ this.point.name +'</b>: '+ this.percentage +' %';
+              }
+            }
+          }
+        },
+        series: [{
+          type: 'pie',
+          name: 'Browser share',
+          //data: <%= @data %>
+          data: [
+            <% b = 0%>
+            <% unless @data.nil? %>
+              <% @data.each_with_index do |data,index| %>
+                {
+                  name: "<%= data.first %>",
+                  y: <%= index == (@data.count-1) ? (1-b).round(2) : (data.last).round(2)%>
+                },
+                <% b += data.last.round(2) %>
+              <% end %>
+            <% end %>
+          ]
+        }]
+      });
+
+      new Highcharts.Chart({
+        chart: {
+          renderTo: 'memory-container',
+          defaultSeriesType: 'areaspline',
+          zoomType: 'x'
+        },
+        title: {text: ''},
+        xAxis: {
+          type: 'datetime',
+          title: {text: null}
+        },
+        yAxis: {title: null},
+        legend: {enabled: false},
+        credits: {enabled: false},
+        plotOptions: {
+          line: {
+            shadow: false,
+            lineWidth: 3
+          },
+          series: {
+            marker: {
+              radius: 0,
+              fillColor: '#FFFFFF',
+              lineWidth: 2,
+              lineColor: null
+            },
+            fillColor: {
+              linearGradient: [0, 0, 0, 300],
+              stops: [
+                [0, 'rgb(69, 114, 167)'],
+                [1, 'rgba(2,0,0,0)']
+              ]
+            }
+          }
+        },
+        tooltip: {
+          formatter: function () {
+            return Highcharts.dateFormat("%B %e %Y", this.x) + ': ' +
+              '$' + Highcharts.numberFormat(this.y, 2);
+          }
+        }, 
+        series: [
+            {
+              name: "Memory Used",
+              data: [ 
+                parseInt(<%= Time.now.to_i * 1000 %>), 
+                parseInt(<%= Redis.current.info["used_memory"] %>)
+              ]
+            }
+        ]
+      });
+    });
+    
+  //]]>
+</script>
+

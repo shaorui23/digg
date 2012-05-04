@@ -14,7 +14,7 @@
     <% @products.each do |product| %>
       <tr>
         <td><%= link_to product.redis_key, product_path(product) %></td>
-        <td><%= product.redis_value %></td>
+        <td><%= truncate product.redis_value %></td>
         <td><%= product.type %></td>
         <td><%= product.ttl %></td>
         <td><%= time_ago_in_words product.created_at %></td>

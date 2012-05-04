@@ -5,7 +5,14 @@ class RedisInfosController < ApplicationController
     @info = Redis.current.info
     add_breadcrumb "首页", "/redis_infos"
     add_breadcrumb "Redis 信息", "/redis_infos"
-    $data = []
+  end
+
+  def graph
+    add_breadcrumb "首页", "/redis_infos"
+    add_breadcrumb "Redis 信息", "/redis_infos"
+    add_breadcrumb "Redis 图表"
+    @info = Redis.current.info
+    @data = []
 
     types = []
     Redis.current.keys.each do |key|
@@ -21,15 +28,8 @@ class RedisInfosController < ApplicationController
         num += 1 if type == Redis.current.type(key)
       end
       temp.push (num/Redis.current.keys.count.to_f)
-      $data.push(temp)
+      @data.push(temp)
     end
-  end
-
-  def graph
-    add_breadcrumb "首页", "/redis_infos"
-    add_breadcrumb "Redis 信息", "/redis_infos"
-    add_breadcrumb "Redis 图表"
-    @info = Redis.current.info
   end
   
   def export
