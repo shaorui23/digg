@@ -118,7 +118,7 @@ var Redmon = (function() {
     }
 
     function onBtnClick(cmd) {
-      $.ajax({url: 'terminal?command='+cmd});
+      $.ajax({url: 'redis_infos/terminal?command='+cmd});
     }
 
     return {

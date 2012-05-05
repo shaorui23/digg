@@ -9,7 +9,9 @@ gem 'sqlite3'
 
 gem 'redis'
 gem 'redis-objects'
-gem 'redis-dump'
+gem 'redis-dump', :path => "/Users/weric/app/redis-dump"
+
+gem 'carrierwave'
 
 
 gem 'ruby-debug19', :require => 'ruby-debug'

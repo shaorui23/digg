@@ -24,32 +24,49 @@
     </table>
   </div>
   <div class="tab-pane" id="messages">
-      <h3>Flush DataBase</h3>
-      <p>It will excute the command that flush all the keys in the local server. View <a href="http://redis.readthedocs.org/en/latest/server/flushdb.html" target= "blank" rel="tooltip" title="click me and go to Redis official website: redis.readthedocs.org">the Redis docs</a> for that.</p>
-      <pre>redis> DBSIZE   # 清空前的 key 数量
-(integer) 4
-redis> FLUSHDB 
-<strong>OK</strong> 
-redis> DBSIZE   # 清空后的 key 数量 
-(integer) 0 
-      </pre>
-      <div class="btns">
-        <button class="btn btn-danger" id="flush-btn">Flush DataBase</button>
+    <div class="accordion" id="accordion2">
+      <div class="accordion-group">
+        <div class="accordion-heading">
+          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+            Export And Import Commands
+          </a>
+        </div>
+        <div id="collapseOne" class="accordion-body collapse in">
+          <div class="accordion-inner">
+            <%= render "export_and_import" %>
+          </div>
+        </div>
       </div>
-      <br />
-      <h3>Reset DataBase</h3>
-      <p><pre>CONFIG RESETSTAT 重置 INFO 命令中的某些统计数据，包括：
-Keyspace hits (键空间命中次数)
-Keyspace misses (键空间不命中次数)
-Number of commands processed (执行命令的次数)
-Number of connections received (连接服务器的次数)
-Number of expired keys (过期key的数量)
-Number of rejected connections (被拒绝的连接数量)
-Latest fork(2) time(最后执行 fork(2) 的时间)
-The aof_delayed_fsync counter(aof_delayed_fsync 计数器的值)</pre>
-     </p>
-      <button class="btn btn-danger" id="reset-btn">Reset DataBase</button>
+      <div class="accordion-group">
+        <div class="accordion-heading">
+          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
+            Control Database Commands
+          </a>
+        </div>
+        <div id="collapseTwo" class="accordion-body collapse">
+          <div class="accordion-inner">
+            <%= render "database_command" %>
+          </div>
+        </div>
+      </div>
+      <div class="accordion-group">
+        <div class="accordion-heading">
+          <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseThree">
+            Collapsible Group Item #3
+          </a>
+        </div>
+        <div id="collapseThree" class="accordion-body collapse">
+          <div class="accordion-inner">
+            c
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
+  
+
+
+
   <div class="tab-pane" id="settings">
     <form class="form-horizontal">
       <fieldset>

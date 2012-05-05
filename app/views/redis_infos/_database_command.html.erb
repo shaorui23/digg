@@ -1,0 +1,19 @@
+<button class="btn btn-danger" id="flush-btn">Flush DataBase</button>
+<p>It will excute the command that flush all the keys in the local server. View <a href="http://redis.readthedocs.org/en/latest/server/flushdb.html" target= "blank" rel="tooltip" title="click me and go to Redis official website: redis.readthedocs.org">the Redis docs</a> for that.</p>
+<pre>redis> DBSIZE   # 清空前的 key 数量
+(integer) 4
+redis> FLUSHDB 
+<strong>OK</strong> 
+redis> DBSIZE   # 清空后的 key 数量 
+(integer) 0</pre>
+<button class="btn btn-danger" id="reset-btn">Reset DataBase</button>
+<pre>CONFIG RESETSTAT 重置 INFO 命令中的某些统计数据，包括：
+Keyspace hits (键空间命中次数)
+Keyspace misses (键空间不命中次数)
+Number of commands processed (执行命令的次数)
+Number of connections received (连接服务器的次数)
+Number of expired keys (过期key的数量)
+Number of rejected connections (被拒绝的连接数量)
+Latest fork(2) time(最后执行 fork(2) 的时间)
+The aof_delayed_fsync counter(aof_delayed_fsync 计数器的值)</pre>
+

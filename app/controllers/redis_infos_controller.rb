@@ -44,7 +44,18 @@ class RedisInfosController < ApplicationController
 
   def import
     begin
-      system(%[cat ~/Desktop/test.json | redis-load])
+      system(%[cat ~/Desktop/#{params[:path]} | redis-load])
+
+      Redis.current.keys.each do |key|
+        case Redis.current.type(key)
+        when "string"
+          Stringlist.create(:name => key)
+        when "list"
+          Product.create(:name => key)
+        when "set"
+          Record.create(:name => key)
+        end
+      end
       redirect_to redis_infos_path
     rescue => e
       puts "!!! Can not import file !!!"
@@ -60,6 +71,9 @@ class RedisInfosController < ApplicationController
       @cmd = args.shift.downcase.intern
       begin
         raise RuntimeError unless supported? @cmd
+        if @cmd == :flushdb
+          [Stringlist, Product, Record].each &:destroy_all
+        end
         @result = Redis.current.send @cmd, *args
         @result = empty_result if @result == []
         render :partial => 'redis_infos/cli'
