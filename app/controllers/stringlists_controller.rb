@@ -1,14 +1,11 @@
 class StringlistsController < ApplicationController
 
-  def query params
-    Redis.current.keys params[:string]
-  end
   # GET /stringlists
   # GET /stringlists.json
   def index
     add_breadcrumb "Home", "/redis_infos"
-    add_breadcrumb "String", "/stringlists"
-    @stringlists = Stringlist.all
+    add_breadcrumb "Redis String", "/stringlists"
+    @stringlists = Stringlist.page params[:page]
 
     respond_to do |format|
       format.html # index.html.erb
@@ -80,6 +77,7 @@ class StringlistsController < ApplicationController
   # DELETE /stringlists/1.json
   def destroy
     @stringlist = Stringlist.find(params[:id])
+    Redis.current.del @stringlist.redis_key
     @stringlist.destroy
 
     respond_to do |format|

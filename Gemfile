@@ -12,6 +12,7 @@ gem 'redis-objects'
 gem 'redis-dump', :path => "/Users/weric/app/redis-dump"
 
 gem 'carrierwave'
+gem 'kaminari'
 
 
 gem 'ruby-debug19', :require => 'ruby-debug'

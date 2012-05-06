@@ -432,7 +432,7 @@ var Redmon = (function() {
       }
 
       $.ajax({
-        url     : 'terminal?command='+command,
+        url     : '/redis_infos/terminal?command='+command,
         success :  callback
       });
     }

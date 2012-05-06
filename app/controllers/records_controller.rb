@@ -62,6 +62,7 @@ class RecordsController < ApplicationController
 
   def destroy
     @set = Redisset.find(params[:id])
+    Redis.current.del @set.redis_key
     @set.destroy
 
     respond_to do |format|

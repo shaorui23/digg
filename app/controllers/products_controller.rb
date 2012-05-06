@@ -2,7 +2,10 @@ class ProductsController < ApplicationController
   # GET /products
   # GET /products.json
   def index
-    @products = Product.all
+    add_breadcrumb "Home", "/redis_infos"
+    add_breadcrumb "Redis List", "/products"
+    
+    @products = Product.page params[:page]
 
     respond_to do |format|
       format.html # index.html.erb
@@ -128,6 +131,7 @@ class ProductsController < ApplicationController
   # DELETE /products/1.json
   def destroy
     @product = Product.find(params[:id])
+    Redis.current.del @product.redis_key
     @product.destroy
 
     respond_to do |format|

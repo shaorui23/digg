@@ -4,7 +4,7 @@
   <div class="well">
   <span id='filters_box'></span>
   <hr class='filters_box' style='display:none'>
-  <input type="search" name="query" class="input-small" placeholder="Search.."><button class="btn btn-primary" data-disable-with="<i class='icon-white icon-refresh'></i> Refresh" type="submit"><i class="icon-white icon-refresh"></i>Click</button>
+  <input type="search" name="query" class="input-small" placeholder="Search.."><button style="margin-bottom:8px;" class="btn btn-primary" data-disable-with="<i class='icon-white icon-refresh'></i> Refresh" type="submit"><i class="icon-white icon-refresh"></i>Click</button>
   </div>
 </form>
 
@@ -35,5 +35,6 @@
     <% end %>
   </tbody>
 </table>
+<%= paginate @stringlists, :theme => 'boot' %>
 
 <%= link_to 'New', new_stringlist_path, :class => 'btn btn-primary' %>

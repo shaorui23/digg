@@ -49,17 +49,26 @@ class RedisInfosController < ApplicationController
       Redis.current.keys.each do |key|
         case Redis.current.type(key)
         when "string"
-          Stringlist.create(:name => key)
+          Stringlist.create(:name => key) unless Stringlist.find_by_name(key)
         when "list"
-          Product.create(:name => key)
+          Product.create(:name => key) unless Product.find_by_name(key)
         when "set"
-          Record.create(:name => key)
+          Record.create(:name => key) unless Record.find_by_name(key)
         end
       end
       redirect_to redis_infos_path
     rescue => e
       puts "!!! Can not import file !!!"
     end
+  end
+
+  def configuration
+    unless params[:param].nil?
+      param = params[:param].intern
+      value = params[:value]
+      Redis.current.config(:set, param, value)
+    end
+    render :text => params[:value] 
   end
 
   def terminal
@@ -76,13 +85,14 @@ class RedisInfosController < ApplicationController
         end
         @result = Redis.current.send @cmd, *args
         @result = empty_result if @result == []
-        render :partial => 'redis_infos/cli'
       rescue ArgumentError
-        wrong_number_of_arguments_for @cmd
+        @result = wrong_number_of_arguments_for @cmd
       rescue RuntimeError
         unknown @cmd
       rescue Errno::ECONNREFUSED
         connection_refused
+      ensure
+        render :partial => 'redis_infos/cli'
       end
     end
   end

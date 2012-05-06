@@ -21,6 +21,7 @@ Digg::Application.routes.draw do
       get 'index'
       get 'graph'
       get 'terminal'
+      post 'configuration'
     end
   end
 
