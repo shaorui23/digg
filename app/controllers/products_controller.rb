@@ -1,11 +1,16 @@
 class ProductsController < ApplicationController
+
   # GET /products
   # GET /products.json
   def index
     add_breadcrumb "Home", "/redis_infos"
     add_breadcrumb "Redis List", "/products"
     
-    @products = Product.page params[:page]
+    if params[:query]
+      @products = Product.where("name like ?", "%"+params[:query]+"%").page params[:page]
+    else
+      @products = Product.page params[:page]
+    end
 
     respond_to do |format|
       format.html # index.html.erb

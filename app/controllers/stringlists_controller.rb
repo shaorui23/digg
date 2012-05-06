@@ -5,7 +5,12 @@ class StringlistsController < ApplicationController
   def index
     add_breadcrumb "Home", "/redis_infos"
     add_breadcrumb "Redis String", "/stringlists"
-    @stringlists = Stringlist.page params[:page]
+
+    if params[:query]
+      @stringlists = Stringlist.where("name like ?", "%"+params[:query]+"%").page params[:page]
+    else
+      @stringlists = Stringlist.page params[:page]
+    end
 
     respond_to do |format|
       format.html # index.html.erb
