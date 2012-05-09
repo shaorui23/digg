@@ -4,7 +4,7 @@
   <div class="well">
   <span id='filters_box'></span>
   <hr class='filters_box' style='display:none'>
-  <input type="search" name="query" class="input-small" placeholder="Search.."><button class="btn btn-primary" data-disable-with="<i class='icon-white icon-refresh'></i> Refresh" type="submit"><i class="icon-white icon-refresh"></i>Click</button>
+  <input type="search" name="query" class="input-small" placeholder="Search.."><button style="margin-bottom:8px;" class="btn btn-primary" data-disable-with="<i class='icon-white icon-refresh'></i> Refresh" type="submit"><i class="icon-white icon-refresh"></i>Click</button>
   </div>
 </form>
 
@@ -14,6 +14,7 @@
       <th>Key</th>
       <th>Value</th>
       <th>type</th>
+      <th>size</th>
       <th>TTL</th>
       <th>Created at</th>
       <th>Actions</th>
@@ -24,7 +25,8 @@
       <tr>
         <td><%= link_to s.redis_key, record_path(s) %></td>
         <td><%= s.redis_value %></td>
-        <td><%= s.type %></td>
+        <td><%= s.redis_type %></td>
+        <td><%= Redis.current.scard s.redis_key %></td>
         <td><%= s.ttl %></td>
         <td><%= time_ago_in_words s.created_at %></td>
         <td>
@@ -35,5 +37,6 @@
     <% end %>
   </tbody>
 </table>
+<%= paginate @sets, :theme => 'boot' %>
 
 <%= link_to 'New', new_record_path, :class => 'btn btn-primary' %>

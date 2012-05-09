@@ -1,82 +1,89 @@
 class ObjectedsController < ApplicationController
-  # GET /objecteds
-  # GET /objecteds.json
+  # GET /zsets
+  # GET /zsets.json
   def index
-    @objecteds = Objected.all
+    if params[:query]
+      @zsets = Objected.where("name like ?", "%"+params[:query]+"%").page params[:page]
+    else
+      @zsets = Objected.page params[:page]
+    end
 
     respond_to do |format|
       format.html # index.html.erb
-      format.json { render json: @objecteds }
+      format.json { render json: @zsets }
     end
   end
 
-  # GET /objecteds/1
-  # GET /objecteds/1.json
+  # GET /zsets/1
+  # GET /zsets/1.json
   def show
-    @objected = Objected.find(params[:id])
+    @zset = Objected.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
-      format.json { render json: @objected }
+      format.json { render json: @zset }
     end
   end
 
-  # GET /objecteds/new
-  # GET /objecteds/new.json
+  # GET /zsets/new
+  # GET /zsets/new.json
   def new
-    @objected = Objected.new
+    @zset = Objected.new
 
     respond_to do |format|
       format.html # new.html.erb
-      format.json { render json: @objected }
+      format.json { render json: @zset }
     end
   end
 
-  # GET /objecteds/1/edit
+  # GET /zsets/1/edit
   def edit
-    @objected = Objected.find(params[:id])
+    @zset = Objected.find(params[:id])
   end
 
-  # POST /objecteds
-  # POST /objecteds.json
+  # POST /zsets
+  # POST /zsets.json
   def create
-    @objected = Objected.new(params[:objected])
+    value = params[:objected].except "redis_value"
+    @zset = Objected.new(value)
 
     respond_to do |format|
-      if @objected.save
-        format.html { redirect_to @objected, notice: 'Objected was successfully created.' }
-        format.json { render json: @objected, status: :created, location: @objected }
+      if @zset.save
+        Redis.current.zadd(@zset.redis_key, params[:objected][:score], params[:objected][:redis_value])
+        
+        format.html { redirect_to @zset, notice: 'Redis zset was successfully created.' }
+        format.json { render json: @zset, status: :created, location: @objected }
       else
         format.html { render action: "new" }
-        format.json { render json: @objected.errors, status: :unprocessable_entity }
+        format.json { render json: @zset.errors, status: :unprocessable_entity }
       end
     end
   end
 
-  # PUT /objecteds/1
-  # PUT /objecteds/1.json
+  # PUT /zsets/1
+  # PUT /zsets/1.json
   def update
-    @objected = Objected.find(params[:id])
+    @zset = Objected.find(params[:id])
 
     respond_to do |format|
-      if @objected.update_attributes(params[:objected])
-        format.html { redirect_to @objected, notice: 'Objected was successfully updated.' }
+      if @zset.update_attributes(params[:zset])
+        format.html { redirect_to @zset, notice: 'Redis sorted set was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
-        format.json { render json: @objected.errors, status: :unprocessable_entity }
+        format.json { render json: @zset.errors, status: :unprocessable_entity }
       end
     end
   end
 
-  # DELETE /objecteds/1
-  # DELETE /objecteds/1.json
+  # DELETE /zsets/1
+  # DELETE /zsets/1.json
   def destroy
-    @objected = Objected.find(params[:id])
-    @objected.destroy
+    @zset = Objected.find(params[:id])
+    @zset.destroy
 
     respond_to do |format|
-      format.html { redirect_to objecteds_url }
+      format.html { redirect_to objected_path }
       format.json { head :no_content }
     end
   end

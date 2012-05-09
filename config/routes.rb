@@ -3,7 +3,14 @@ Digg::Application.routes.draw do
 
   resources :objecteds
 
-  resources :records
+  resources :records do
+    member do
+      post "save_redis_value"
+      get "edit_redis_value"
+      get "destroy_redis_value"
+      get "add_redis_value"
+    end
+  end
 
   resources :products do
     member do

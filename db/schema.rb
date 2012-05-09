@@ -26,6 +26,7 @@ ActiveRecord::Schema.define(:version => 20120421062959) do
   end
 
   create_table "records", :force => true do |t|
+    t.string   "type"
     t.string   "name"
     t.string   "score"
     t.datetime "created_at", :null => false

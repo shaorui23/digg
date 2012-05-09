@@ -1,4 +1,4 @@
-<%= form_for :redisset, :url => records_path, :html => { :class => 'form-horizontal' } do |f| %>
+<%= form_for :redisset, :html => { :class => 'form-horizontal' } do |f| %>
   <fieldset>
     <legend><%= controller.action_name.capitalize %> Redis Set</legend>
 
@@ -23,7 +23,7 @@
     <div class="control-group">
       <%= f.label "Value", :class => 'control-label' %>
       <div class="controls">
-        <%= f.text_field :redis_value, :class => 'text_field' %>
+        <%= f.text_area :redis_value, :class => 'text_area', :placeholder => "以逗号分割" %>
       </div>
     </div>
 

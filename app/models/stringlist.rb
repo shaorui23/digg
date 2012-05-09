@@ -1,11 +1,7 @@
-class Stringlist < ActiveRecord::Base
+class Stringlist < Record
   paginates_per 10
-  attr_accessible :name, :redis_key, :redis_value
 
-  def redis_key
-    #"string:#{self.id}:#{self.name}"
-    self.name.to_s
-  end
+  attr_accessible :redis_value
 
   def redis_value
     Redis.current.get(self.redis_key)
@@ -14,16 +10,4 @@ class Stringlist < ActiveRecord::Base
   def redis_value=(str)
     Redis.current.set(self.redis_key, str)
   end
-
-  def type
-    Redis.current.type self.redis_key
-  end
-
-  def ttl
-    Redis.current.ttl self.redis_key
-  end
-
-  # => Example
-  # Redis.current.set("string:1:key", "value")
-  #
 end

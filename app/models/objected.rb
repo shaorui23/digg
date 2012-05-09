@@ -1,22 +1,8 @@
-class Objected < ActiveRecord::Base
-  include Redis::Objects
-  
-  list :list_for_redis, :global => true
+class Objected < Record
+  paginates_per 10
+  attr_accessible :redis_value, :score
 
-  before_create :set_default_value
-  attr_accessible :prefix_list_for_redis
-
-  def prefix_list_for_redis
-    list_for_redis
-  end
-
-  def prefix_list_for_redis=(value)
-    list_for_redis.push value
-  end
-
-  private
-
-  def set_default_value
-    self.list_for_redis ||= ""
+  def redis_value
+    Redis.current.zrange(self.redis_key, 0, -1).join(",")
   end
 end

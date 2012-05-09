@@ -1,5 +1,5 @@
 <ul class="nav nav-tabs">
-  <li class="active"><a href="#home" data-toggle="tab"><i class="icon-home"></i>Redis Info</a></li>
+  <li class="active"><a href="#home" data-toggle="tab"><i class="icon-info-sign"></i>Redis Info</a></li>
   <li><a href="#messages" data-toggle="tab"><i class="icon-pencil"></i>Commandly-Used Commands</a></li>
   <li><a href="#settings" data-toggle="tab"><i class="icon-edit"></i>Settings</a></li>
 </ul>
@@ -24,14 +24,12 @@
     </table>
   </div>
 
-
-
   <div class="tab-pane" id="messages">
     <div class="accordion" id="accordion2">
       <div class="accordion-group">
         <div class="accordion-heading">
           <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
-            Export And Import Commands
+            <i class="icon-chevron-right"></i> Export And Import Commands
           </a>
         </div>
         <div id="collapseOne" class="accordion-body collapse in">
@@ -43,7 +41,7 @@
       <div class="accordion-group">
         <div class="accordion-heading">
           <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
-            Control Database Commands
+            <i class="icon-chevron-right"></i> Control Database Commands
           </a>
         </div>
         <div id="collapseTwo" class="accordion-body collapse">
@@ -66,9 +64,6 @@
       </div>
     </div>
   </div>
-  
-
-
 
   <div class="tab-pane" id="settings">
     <%= render "config" %>

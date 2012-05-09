@@ -425,7 +425,7 @@ var Redmon = (function() {
     }
 
     function process(command, callback) {
-      var cmd = command.split(' ')[0];
+      var cmd = command.split(' ')[0].toLowerCase();
       if (!cmds[cmd] === true) {
           callback("(error) ERR unknown command '"+cmd+"'");
           return;
