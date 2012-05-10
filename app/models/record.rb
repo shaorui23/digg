@@ -1,4 +1,5 @@
 class Record < ActiveRecord::Base
+  paginates_per 10
   attr_accessible :name, :redis_key#, :redis_value
   
  #def redis_value

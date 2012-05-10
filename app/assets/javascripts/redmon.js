@@ -88,11 +88,6 @@ var Redmon = (function() {
         onBtnClick('flushdb');
         closeModal();
       });
-
-      $('#reset-btn').click(function() {
-        onBtnClick('config resetstat');
-        $('#info-tbl').effect("highlight", {}, 2000);
-      });
     }
 
     function closeModal() {

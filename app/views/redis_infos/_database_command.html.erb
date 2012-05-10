@@ -33,3 +33,15 @@ The aof_delayed_fsync counter(aof_delayed_fsync 计数器的值)</pre>
   </div>
 </div>
 
+<script type='text/javascript'>
+
+  $('#reset-btn').click(function() {
+    $.ajax({
+      url     : 'redis_infos/import?command='+'config resetstat',
+      success : function(){
+          alert("The command have done!");
+      }
+    });
+  });
+</script>
+

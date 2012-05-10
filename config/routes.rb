@@ -29,6 +29,7 @@ Digg::Application.routes.draw do
       get 'graph'
       get 'terminal'
       post 'configuration'
+      get 'load_redis'
     end
   end
 

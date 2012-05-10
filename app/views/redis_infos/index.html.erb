@@ -53,12 +53,12 @@
       <div class="accordion-group">
         <div class="accordion-heading">
           <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseThree">
-            Collapsible Group Item #3
+            Load Redis Data For Test
           </a>
         </div>
         <div id="collapseThree" class="accordion-body collapse">
           <div class="accordion-inner">
-            c
+            <button class="btn btn-primary" id="load-testdata-btn">Load TestData</button>
           </div>
         </div>
       </div>
@@ -71,3 +71,13 @@
 
 </div>
 
+<script type='text/javascript'>
+  $('#load-testdata-btn').click(function(){
+    $.ajax({
+        url   : 'redis_infos/load_redis',
+        success : function(){
+            alert("Have done!");
+        }
+    });
+  });
+</script>

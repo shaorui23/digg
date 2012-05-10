@@ -1,5 +1,4 @@
 class Product < Record
-  paginates_per 10
   attr_accessible :redis_value
 
   def redis_value

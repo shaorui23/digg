@@ -7,7 +7,7 @@ class ProductsController < ApplicationController
     add_breadcrumb "Redis List", "/products"
     
     if params[:query]
-      @products = Product.where("name like ?", "%"+params[:query]+"%").page params[:page]
+      @products = Product.where("name like ?", "%"+params[:query]+"%").page(params[:page])
     else
       @products = Product.page params[:page]
     end
