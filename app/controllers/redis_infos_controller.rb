@@ -1,14 +1,14 @@
-# coding: utf-8  
+# coding: utf-8
 class RedisInfosController < ApplicationController
 
   def index
-    @info = Redis.current.info
-    add_breadcrumb "首页", "/redis_infos"
+    add_breadcrumb "Dashboard", "/redis_infos"
     add_breadcrumb "Redis 信息", "/redis_infos"
+    @info = Redis.current.info
   end
 
   def graph
-    add_breadcrumb "首页", "/redis_infos"
+    add_breadcrumb "Dashboard", "/redis_infos"
     add_breadcrumb "Redis 信息", "/redis_infos"
     add_breadcrumb "Redis 图表"
     @info = Redis.current.info
@@ -27,6 +27,7 @@ class RedisInfosController < ApplicationController
       Redis.current.keys.each do |key|
         num += 1 if type == Redis.current.type(key)
       end
+      #temp.push num
       temp.push (num/Redis.current.keys.count.to_f)
       @data.push(temp)
     end
@@ -53,7 +54,9 @@ class RedisInfosController < ApplicationController
         when "list"
           Product.create(:name => key) unless Product.find_by_name(key)
         when "set"
-          Record.create(:name => key) unless Record.find_by_name(key)
+          Redisset.create(:name => key) unless Redisset.find_by_name(key)
+        when "zset"
+          Objected.create(:name => key) unless Objected.find_by_name(key)
         end
       end
       redirect_to redis_infos_path
@@ -81,7 +84,7 @@ class RedisInfosController < ApplicationController
       begin
         raise RuntimeError unless supported? @cmd
         if @cmd == :flushdb
-          [Stringlist, Product, Record].each &:destroy_all
+          Record.destroy_all
         end
         @result = Redis.current.send @cmd, *args
         @result = empty_result if @result == []

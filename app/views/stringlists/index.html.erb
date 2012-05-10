@@ -24,7 +24,7 @@
       <tr>
         <td><%= link_to stringlist.redis_key, stringlist_path(stringlist) %></td>
         <td><%= stringlist.redis_value %></td>
-        <td><%= stringlist.type %></td>
+        <td><%= stringlist.redis_type %></td>
         <td><%= stringlist.ttl %></td>
         <td><%= time_ago_in_words stringlist.created_at %></td>
         <td>

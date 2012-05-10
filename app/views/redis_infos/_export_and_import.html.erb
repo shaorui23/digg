@@ -81,7 +81,7 @@
   });
 
   $('#import-confirm-btn').click(function() {
-    var path = document.getElementById("fileInput").value;
+    var path = document.getElementById("fileInput").files[0].name;
     console.log(path);
     $.ajax({
       url     : 'redis_infos/import?path='+path,

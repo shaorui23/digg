@@ -1,6 +1,6 @@
 class RecordsController < ApplicationController
   def index
-    add_breadcrumb "Home", "/redis_infos"
+    add_breadcrumb "Dashboard", "/redis_infos"
     add_breadcrumb "Redis Set", "/records"
 
     if params[:query]

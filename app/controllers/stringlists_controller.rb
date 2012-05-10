@@ -3,7 +3,7 @@ class StringlistsController < ApplicationController
   # GET /stringlists
   # GET /stringlists.json
   def index
-    add_breadcrumb "Home", "/redis_infos"
+    add_breadcrumb "Dashboard", "/redis_infos"
     add_breadcrumb "Redis String", "/stringlists"
 
     if params[:query]

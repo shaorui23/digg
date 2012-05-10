@@ -3,7 +3,7 @@ class ProductsController < ApplicationController
   # GET /products
   # GET /products.json
   def index
-    add_breadcrumb "Home", "/redis_infos"
+    add_breadcrumb "Dashboard", "/redis_infos"
     add_breadcrumb "Redis List", "/products"
     
     if params[:query]

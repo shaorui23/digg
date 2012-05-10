@@ -2,6 +2,8 @@ class ObjectedsController < ApplicationController
   # GET /zsets
   # GET /zsets.json
   def index
+    add_breadcrumb "Dashboard", "/redis_infos"
+    add_breadcrumb "Redis Sorted Set", "/objecteds"
     if params[:query]
       @zsets = Objected.where("name like ?", "%"+params[:query]+"%").page params[:page]
     else
