@@ -37,9 +37,9 @@ The aof_delayed_fsync counter(aof_delayed_fsync 计数器的值)</pre>
 
   $('#reset-btn').click(function() {
     $.ajax({
-      url     : 'redis_infos/import?command='+'config resetstat',
+      url     : 'redis_infos/terminal?command='+'config resetstat',
       success : function(){
-          alert("The command have done!");
+          alert("The Redis server has excute 'config resetstat' command.");
       }
     });
   });

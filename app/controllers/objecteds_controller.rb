@@ -21,6 +21,10 @@ class ObjectedsController < ApplicationController
   def show
     @zset = Objected.find(params[:id])
 
+    add_breadcrumb "Dashboard", "/redis_infos"
+    add_breadcrumb "Redis Sorted Set", "/objecteds"
+    add_breadcrumb "#{@zset.redis_key}", "/objecteds/#{@zset.id}"
+
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @zset }
@@ -41,6 +45,9 @@ class ObjectedsController < ApplicationController
   # GET /zsets/1/edit
   def edit
     @zset = Objected.find(params[:id])
+    add_breadcrumb "Dashboard", "/redis_infos"
+    add_breadcrumb "Redis Sorted Set", "/objecteds"
+    add_breadcrumb "#{@zset.redis_key}", "/objecteds/#{@zset.id}"
   end
 
   # POST /zsets

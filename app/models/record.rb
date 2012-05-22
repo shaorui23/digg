@@ -1,6 +1,6 @@
 class Record < ActiveRecord::Base
   paginates_per 10
-  attr_accessible :name, :redis_key#, :redis_value
+  attr_accessible :name, :redis_key
   
  #def redis_value
  #  case type

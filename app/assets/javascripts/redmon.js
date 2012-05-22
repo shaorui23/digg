@@ -87,6 +87,7 @@ var Redmon = (function() {
       $('#flush-confirm-btn').click(function() {
         onBtnClick('flushdb');
         closeModal();
+        alert("Redis Server has flushed");
       });
     }
 
@@ -408,7 +409,7 @@ var Redmon = (function() {
     function init() {
       var prompt = [
         "<div class='line'>" +
-          "<span class='prompt'>"+config.cliPrompt+"</span>" +
+          "<span class='prompt'>"+" RedisClient >"+"</span>" +
           "<input type='text' class='readLine active' />" +
         "</div>"
       ].join('');

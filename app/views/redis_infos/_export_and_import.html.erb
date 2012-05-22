@@ -64,7 +64,10 @@
   $('#export-confirm-btn').click(function() {
     $.ajax({
       url     : 'redis_infos/export',
-      success : $('#export-confirm').modal('hide')
+      success : function(){
+        $('#export-confirm').modal('hide');
+        alert("smartRedis has exported");
+      }
     });
   });
 
@@ -85,7 +88,10 @@
     console.log(path);
     $.ajax({
       url     : 'redis_infos/import?path='+path,
-      success : $('#import-confirm').modal('hide')
+      success : function(){
+        $('#import-confirm').modal('hide');
+        alert("The json data has imported into Redis database");
+      }
     });
   });
 

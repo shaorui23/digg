@@ -1,10 +1,11 @@
-<h1>Product</h1>
+<h1>Redis List</h1>
 
 <fieldset>
   <dl>
     <dt class="key_field label string_type"><label>Key<dd><pre class="prettyprint"><%= @product.redis_key %></dd></pre></label></dt>
     <dt class="value_field label string_type"><label>Value<dd><pre class="prettyprint"><%= @product.redis_value %></dd></pre></label></dt>
-    <dt class="value_field label string_type"><label>Type<dd><pre class="prettyprint"><%= @product.type %></dd></pre></label></dt>
+    <dt class="value_field label string_type"><label>Type<dd><pre class="prettyprint"><%= @product.redis_type %></dd></pre></label></dt>
+    <dt class="value_field label string_type"><label>Size<dd><pre class="prettyprint"><%= Redis.current.lrange(@product.redis_key, 0, -1).size %></dd></pre></label></dt>
     <dt class="value_field label string_type"><label>TTL<dd><pre class="prettyprint"><%= @product.ttl %></dd></pre></label></dt>
   </dl>
 </fieldset>

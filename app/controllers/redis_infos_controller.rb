@@ -101,17 +101,17 @@ class RedisInfosController < ApplicationController
   end
 
   def load_redis
-    redis = Redis.current
+   #redis = Redis.current
 
-    loop do
-      start = rand(10000)
-      multi = rand(3)
-      start.upto(multi * start) do |i|
-        redis.set("key-#{i}", "abcdedghijklmnopqrstuvwxyz")
-        Stringlist.create(:name => "key-#{i}")
-      end
-    end
-    redirect_to redis_infos_path
+   #loop do
+   #  start = rand(10000)
+   #  multi = rand(3)
+   #  start.upto(multi * start) do |i|
+   #    redis.set("key-#{i}", "abcdedghijklmnopqrstuvwxyz")
+   #    Stringlist.create(:name => "key-#{i}")
+   #  end
+   #end
+   #redirect_to redis_infos_path
   end
 
   private 

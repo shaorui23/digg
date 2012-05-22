@@ -6,9 +6,9 @@
         </div>
         <table class='table table-condensed table-striped' id='configuration'>
           <tbody>
-            <% Redis.current.config(:get, '*').each do |k, v|%>
+            <% redis_config.each do |k, v|%>
               <tr>
-                <td style="width:30%"><%= k %></td>
+                <td style="width:30%"><a href="#" rel="popover" title="Another one" data-content="And here's some amazing content. It's very engaging. right?"><%= k %></a></td>
                 <td class="editable" id="<%= k %>"><%= v %></td>
               </tr>
             <% end %>
@@ -61,4 +61,3 @@
 
   configWidget.render()
 </script>
-

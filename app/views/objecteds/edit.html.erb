@@ -29,7 +29,7 @@
       <% @zset.redis_value.split(",").each_with_index do |v, index| %>
         <tr>
           <td style="width: 20%">Index:<%= index + 1 %></td>
-          <td style="width: 20%">score:<%= 0 %></td>
+          <td style="width: 20%">score:<%= index + 1 %></td>
           <td>
             <div class="editable" id=<%= index %>><%= v %></div>
           </td>

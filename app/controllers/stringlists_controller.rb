@@ -23,10 +23,15 @@ class StringlistsController < ApplicationController
   def show
     @stringlist = Stringlist.find(params[:id])
 
+    add_breadcrumb "Dashboard", "/redis_infos"
+    add_breadcrumb "Redis String", "/stringlists"
+    add_breadcrumb "#{@stringlist.redis_key}", "/stringlists/#{@stringlist.id}"
+
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @stringlist }
     end
+
   end
 
   # GET /stringlists/new
@@ -43,6 +48,10 @@ class StringlistsController < ApplicationController
   # GET /stringlists/1/edit
   def edit
     @stringlist = Stringlist.find(params[:id])
+
+    add_breadcrumb "Dashboard", "/redis_infos"
+    add_breadcrumb "Redis String", "/stringlists"
+    add_breadcrumb "#{@stringlist.redis_key}", "/stringlists/#{@stringlist.id}"
   end
 
   # POST /stringlists

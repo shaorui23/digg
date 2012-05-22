@@ -7,14 +7,13 @@
           <div class='headbar'>
             <h2>Redis DataType Use</h2>
           </div>
-          <div id='redis_use' style='width:400px;height:325px; float:left;'>></div>
-          <div id='redis__use' style='width:480px;height:325px; float:right;'>></div>
+          <div id='redis_use' style='width:880px;height:325px; float:left;'></div>
           <div class='headbar'>
             <h2>Data collect</h2>
           </div>
           <div id='data-collect-container' style='width:880px;height:325px'></div>
           <div class='headbar'>
-            <h2>Memory Usage</h2>
+            <h2>Memory Used</h2>
           </div>
           <div id='memory-container' style='width:880px;height:225px'></div>
         </div>
@@ -26,53 +25,6 @@
 <script type='text/javascript'>
   //<![CDATA[
     $(function() {
-      new Highcharts.Chart({
-        chart: {
-          renderTo: 'redis__use',
-          plotBackgroundColor: null,
-          plotBorderWidth: null,
-          plotShadow: false
-        },
-        title: {
-          text: 'DataType use in Redis Database'
-        },
-        tooltip: {
-          formatter: function() {
-            return '<b>'+ this.point.name +'</b>: '+ this.percentage +' %';
-          }
-        },
-        plotOptions: {
-          pie: {
-            allowPointSelect: true,
-            cursor: 'pointer',
-            dataLabels: {
-              enabled: true,
-              color: '#000000',
-              connectorColor: '#000000',
-              formatter: function() {
-                return '<b>'+ this.point.name +'</b>: '+ this.percentage +' %';
-              }
-            }
-          }
-        },
-        series: [{
-          type: 'pie',
-          name: 'Browser share',
-          //data: <%= @data %>
-          data: [
-            <% b = 0%>
-            <% unless @data.nil? %>
-              <% @data.each_with_index do |data,index| %>
-                {
-                  name: "<%= data.first %>",
-                  y: <%= index == (@data.count-1) ? (1-b).round(2) : (data.last).round(2)%>
-                },
-                <% b += data.last.round(2) %>
-              <% end %>
-            <% end %>
-          ]
-        }]
-      });
       //////////////////////////////////////////
       // Keyspace hits (键空间命中次数)
       // Keyspace misses (键空间不命中次数)
@@ -223,17 +175,11 @@
             }
           }
         },
-        tooltip: {
-          formatter: function () {
-            return Highcharts.dateFormat("%B %e %Y", this.x) + ': ' +
-              '$' + Highcharts.numberFormat(this.y, 2);
-          }
-        }, 
         series: [
             {
               name: "Memory Used",
               data: [ 
-                parseInt(<%= Time.now.to_i * 1000 %>), 
+                parseInt(<%= Time.now.to_i %>), 
                 parseInt(<%= Redis.current.info["used_memory"] %>)
               ]
             }

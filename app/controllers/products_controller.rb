@@ -23,6 +23,10 @@ class ProductsController < ApplicationController
   def show
     @product = Product.find(params[:id])
 
+    add_breadcrumb "Dashboard", "/redis_infos"
+    add_breadcrumb "Redis List", "/products"
+    add_breadcrumb "#{@product.redis_key}", "/products/#{@product.id}"
+
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @product }
@@ -43,6 +47,10 @@ class ProductsController < ApplicationController
   # GET /products/1/edit
   def edit
     @product = Product.find(params[:id])
+
+    add_breadcrumb "Dashboard", "/redis_infos"
+    add_breadcrumb "Redis List", "/products"
+    add_breadcrumb "#{@product.redis_key}", "/products/#{@product.id}"
   end
 
   # POST /products

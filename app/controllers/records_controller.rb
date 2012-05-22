@@ -17,6 +17,11 @@ class RecordsController < ApplicationController
 
   def show
     @redisset = Redisset.find(params[:id])
+
+    add_breadcrumb "Dashboard", "/redis_infos"
+    add_breadcrumb "Redis Set", "/records"
+    add_breadcrumb "#{@redisset.redis_key}", "/records/#{@redisset.id}"
+    
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @redisset }
@@ -34,6 +39,10 @@ class RecordsController < ApplicationController
 
   def edit
     @set = Redisset.find(params[:id])
+
+    add_breadcrumb "Dashboard", "/redis_infos"
+    add_breadcrumb "Redis Set", "/records"
+    add_breadcrumb "#{@set.redis_key}", "/records/#{@set.id}"
   end
 
   def save_redis_value
