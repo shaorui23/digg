@@ -15,8 +15,23 @@
   <ul>
     <% followees.each do |user_id| %>
       <% name = Redis.current.get("user:id:#{user_id}:username") %>
-      <li><a href="#" rel="popover" title="用户<%= Redis.current.get("user:id:#{user_id}:username") %>" data-content="这是关于<%=name%>的简介">用户<%= Redis.current.get("user:id:#{user_id}:username") %></a>
+      <li><a href="#" rel="popover" title="用户<%= Redis.current.get("user:id:#{user_id}:username") %>" data-content="这是关于<%=name%>的简介">用户<%= Redis.current.get("user:id:#{user_id}:username") %> </a>
       </i><%= link_to '取消关注', {:controller => :twitters, :action => :remove_friend, :follower_id => user_id, :self_id => user }, :confirm => "是否移出和他的好友关系?", :class => 'btn btn-mini btn-primary' %>
+      </li>
+      <br />
+    <% end %>
+  </ul>
+</p>
+
+<p>
+  <% all_users_id = Redis.current.lrange("users",0,-1) - followees %>
+  <% all_users_id.delete(user) %>
+  推荐用户 (<b><%= all_users_id.size %></b>):
+  <ul>
+    <% all_users_id.each do |user_id| %>
+      <% name = Redis.current.get("user:id:#{user_id}:username") %>
+      <li><a href="#" rel="popover" title="用户<%= Redis.current.get("user:id:#{user_id}:username") %>" data-content="这是关于<%=name%>的简介">用户<%= Redis.current.get("user:id:#{user_id}:username") %> </a>
+      </i><%= link_to '添加好友', {:controller => :twitters, :action => :add_friend, :followee_id => user_id, :self_id => user }, :confirm => "是否添加他为好友?", :class => 'btn btn-mini btn-primary' %>
       </li>
       <br />
     <% end %>

@@ -39,6 +39,7 @@ Digg::Application.routes.draw do
       get "index"
       get "remove_friend"
       get "add_post"
+      get "add_friend"
     end
   end
 

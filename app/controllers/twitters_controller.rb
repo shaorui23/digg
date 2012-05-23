@@ -9,21 +9,34 @@ class TwittersController < ApplicationController
 
   def add_post
     redis = Redis.current
-    redis.sadd("user:id:#{params[:id]}:posts", params[:post])
+    post_id = redis.incr("global:NextPostId")   #至少随机生成50条post，用于分配给6个用户
+    redis.set("post:#{post_id}", params[:post])
+    redis.rpush("posts", post_id)
+    redis.sadd("user:id:#{params[:id]}:posts", post_id)
     redis.smembers("user:id:#{params[:id]}:followers").each do |follower|   #添加该帖子给粉丝
-      redis.sadd("user:id:#{follower}:mentions", params[:post])
+      redis.sadd("user:id:#{follower}:mentions", post_id)
+    end
+    redirect_to twitters_path
+  end
+
+  def add_friend
+    redis = Redis.current
+    redis.sadd("user:id:#{params[:self_id]}:followees", params[:followee_id])
+    redis.sadd("user:id:#{params[:followee_id]}:followers", params[:self_id] )
+    redis.smembers("user:id:#{params[:followee_id]}:posts").each do |post|   #添加你关注的用户的帖子给本身
+      redis.sadd("user:id:#{params[:self_id]}:mentions", post)
     end
     redirect_to twitters_path
   end
 
   def remove_friend
     redis = Redis.current
-    redis.multi
-      redis.srem("user:id:#{params[:self_id]}:followees", params[:follower_id])
-      redis.srem("user:id:#{params[:follower_id]}:followers", params[:self_id])
-      #TODO
-      #redis.srem("user:id:#{params[:self_id]}:mentions", ) #移除之前关注的人的微博
-    redis.exec
+    redis.srem("user:id:#{params[:self_id]}:followees", params[:follower_id])
+    redis.srem("user:id:#{params[:follower_id]}:followers", params[:self_id])
+    remove_ids = redis.smembers("user:id:#{params[:follower_id]}:posts")
+    remove_ids.each do |id|
+      redis.srem("user:id:#{params[:self_id]}:mentions", id) #移除之前关注的人的微博
+    end
     redirect_to twitters_path
   end
 
@@ -75,6 +88,7 @@ class TwittersController < ApplicationController
   end
 
   def init_post(redis)
+    Product.create(:name => "posts")
     Stringlist.create(:name => "global:NextPostId")
     redis.set("global:NextPostId", 1000)   #更新post的id，使其唯一
 
@@ -88,13 +102,16 @@ class TwittersController < ApplicationController
     posts.each do |post|
       post_id = redis.incr("global:NextPostId")   #至少随机生成50条post，用于分配给6个用户
       redis.set("post:#{post_id}", post)
+      redis.rpush("posts", post_id)
     end
 
     user_ids = redis.lrange("users", 0, -1)
     user_ids.each {|id| Redisset.create(:name => "user:id:#{id}:posts"); Redisset.create(:name => "user:id:#{id}:mentions") }
 
     user_ids.each_with_index do |id, index|
-      twitter = posts.slice(index*3, 3)  #这里应该是存post:post_id
+      #TODO
+      #twitter = posts.slice(index*3, 3)  #这里应该是存post:post_id
+      twitter = redis.lrange("posts", index*3, 2+index*3)
       twitter.each do |t|
         redis.sadd("user:id:#{id}:posts", t)    #添加该帖子给当前用户
       end
