@@ -1,0 +1,24 @@
+<p>
+  <% followers = Redis.current.smembers("user:id:#{user}:followers") %>
+ 我的粉丝 (<b><%= Redis.current.scard "user:id:#{user}:followers" %></b>) :  
+  <ul>
+    <% followers.each do |user_id| %>
+      <% name = Redis.current.get("user:id:#{user_id}:username") %>
+      <li><a href="#" rel="popover" title="用户<%= name %>" data-content="这是关于<%=name%>的简介">用户 <%= Redis.current.get("user:id:#{user_id}:username") %></a></li>
+    <% end %>
+  </ul>
+</p>
+
+<p>
+  <% followees = Redis.current.smembers("user:id:#{user}:followees")%>
+  我的关注 (<b><%= Redis.current.scard "user:id:#{user}:followees" %></b>) : 
+  <ul>
+    <% followees.each do |user_id| %>
+      <% name = Redis.current.get("user:id:#{user_id}:username") %>
+      <li><a href="#" rel="popover" title="用户<%= Redis.current.get("user:id:#{user_id}:username") %>" data-content="这是关于<%=name%>的简介">用户<%= Redis.current.get("user:id:#{user_id}:username") %></a>
+      </i><%= link_to '取消关注', {:controller => :twitters, :action => :remove_friend, :follower_id => user_id, :self_id => user }, :confirm => "是否移出和他的好友关系?", :class => 'btn btn-mini btn-primary' %>
+      </li>
+      <br />
+    <% end %>
+  </ul>
+</p>

@@ -1,0 +1,38 @@
+<div class="accordion" id="<%=user%>">
+  <div class="accordion-group">
+    <div class="accordion-heading">
+      <a class="accordion-toggle" data-toggle="collapse" data-parent="#<%=user%>" href="#collapseOne<%=user%>">
+        <i class="icon-chevron-right"></i> 好友微博
+      </a>
+    </div>
+    <div id="collapseOne<%=user%>" class="accordion-body collapse in">
+      <div class="accordion-inner">
+        <%= render :partial => "content", :locals => {:user => user} %>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-group">
+    <div class="accordion-heading">
+      <a class="accordion-toggle" data-toggle="collapse" data-parent="#<%=user%>" href="#collapseTwo<%=user%>">
+        <i class="icon-chevron-right"></i> 我的微博
+      </a>
+    </div>
+    <div id="collapseTwo<%=user%>" class="accordion-body collapse">
+      <div class="accordion-inner">
+        <%= render :partial => "my_post", :locals => {:user => user} %>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-group">
+    <div class="accordion-heading">
+      <a class="accordion-toggle" data-toggle="collapse" data-parent="#<%=user%>" href="#collapseThree<%=user%>">
+        <i class="icon-chevron-right"></i> 我的好友关系
+      </a>
+    </div>
+    <div id="collapseThree<%=user%>" class="accordion-body collapse">
+      <div class="accordion-inner">
+        <%= render :partial => "friendship", :locals => {:user => user} %>
+      </div>
+    </div>
+  </div>
+</div>

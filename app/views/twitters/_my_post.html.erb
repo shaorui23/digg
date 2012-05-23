@@ -1,0 +1,35 @@
+<p>
+  <div class="control-group">
+    <input class="text_field" id="post_content<%=user%>" size="40" type="text" />
+    <button class="btn btn-primary" id="submit_post<%=user%>" style="margin-bottom:8px;">发条微博吧</button>
+  </div>
+  我的微博:
+  <ul>
+    <% Redis.current.smembers("user:id:#{user}:posts").each do |post|%>
+      <li><%= post %></li>
+    <% end %>
+  </ul>
+</p>
+<script type='text/javascript'>
+  String.format = function() {
+      if( arguments.length == 0 )
+          return null;
+      var str = arguments[0]; 
+      for(var i=1;i<arguments.length;i++) {
+          var re = new RegExp('\\{' + (i-1) + '\\}','gm');
+          str = str.replace(re, arguments[i]);
+      }
+      return str;
+  }
+  $(String.format("#submit_post{0}", <%= user %>)).click(function(){
+    var post = document.getElementById(String.format("post_content{0}",<%= user %>)).value;
+    $.ajax({
+        url   : 'twitters/add_post?post='+post+"&id="+<%= user %>,
+        success : function(){
+            alert("微博发布成功!");
+            location.reload();
+        }
+    });
+   });
+</script>
+

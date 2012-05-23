@@ -11,4 +11,5 @@ module ApplicationHelper
     end
     pretty_config
   end
+
 end

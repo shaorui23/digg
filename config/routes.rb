@@ -33,6 +33,15 @@ Digg::Application.routes.draw do
     end
   end
 
+  resources :twitters do
+    collection do
+      get "init_data"
+      get "index"
+      get "remove_friend"
+      get "add_post"
+    end
+  end
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

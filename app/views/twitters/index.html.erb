@@ -1,0 +1,41 @@
+<ul class="nav nav-tabs" id="myTab">
+  <li class="active"><a href="#user1">用户 A</a></li>
+  <li><a href="#user2">用户 B</a></li>
+  <li><a href="#user3">用户 C</a></li>
+  <li><a href="#user4">用户 D</a></li>
+  <li><a href="#user5">用户 E</a></li>
+  <li><a href="#user6">用户 F</a></li>
+</ul>
+ 
+<div class="tab-content">
+  <div class="tab-pane active" id="user1">
+    <%= render :partial => "cool", :locals => {:user => "1001"} %>
+  </div>
+  <div class="tab-pane" id="user2">
+    <%= render :partial => "cool", :locals => {:user => "1002"} %>
+  </div>
+  <div class="tab-pane" id="user3">
+    <%= render :partial => "cool", :locals => {:user => "1003"} %>
+  </div>
+  <div class="tab-pane" id="user4">
+    <%= render :partial => "cool", :locals => {:user => "1004"} %>
+  </div>
+  <div class="tab-pane" id="user5">
+    <%= render :partial => "cool", :locals => {:user => "1005"} %>
+  </div>
+  <div class="tab-pane" id="user6">
+    <%= render :partial => "cool", :locals => {:user => "1006"} %>
+  </div>
+</div>
+ 
+<script>
+  $(function () {
+    $('#myTab a').click(function (e) {
+      e.preventDefault();
+      $(this).tab('show');
+    })
+  })
+</script>
+
+
+

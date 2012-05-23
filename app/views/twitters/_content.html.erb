@@ -1,0 +1,8 @@
+<p>
+  好友微博:
+  <ul>
+    <% Redis.current.smembers("user:id:#{user}:mentions").each do |mention|%>
+      <li><%= mention %></li>
+    <% end %>
+  </ul>
+</p>
