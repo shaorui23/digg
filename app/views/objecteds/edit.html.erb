@@ -54,9 +54,9 @@
   <div class='modal-body'>
     <form class="well">
       <label>Score</label>
-      <input type="text" class="span3" id="zset_score_input">
+      <input onKeypress="return (/[\d.]/.test(String.fromCharCode(event.keyCode)))" type="text" class="span3" id="zset_score_input">
       <label>Value</label>
-      <input type="text" class="span3" id="zset_value_input">
+      <input type="text" class="span3 input-medium" id="zset_value_input">
     </form>
   </div>
   <div class='modal-footer'>
