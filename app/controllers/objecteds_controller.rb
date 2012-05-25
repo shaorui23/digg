@@ -96,4 +96,24 @@ class ObjectedsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  def add_redis_value
+    @zset = Objected.find(params[:id]) 
+    Redis.current.zadd(@zset.redis_key, params[:score], params[:value])
+
+    respond_to do |format|
+      format.html { redirect_to @zset, notice: 'Score and Value was successfully deleted.' }
+      format.json { head :no_content }
+    end
+  end
+
+  def destroy_redis_value
+    @zset = Objected.find(params[:id]) 
+    Redis.current.zrem(@zset.redis_key, params[:value])
+
+    respond_to do |format|
+      format.html { redirect_to edit_objected_path, notice: 'Value was successfully deleted.' }
+      format.json { head :no_content }
+    end
+  end
 end

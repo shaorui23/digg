@@ -1,7 +1,20 @@
 Digg::Application.routes.draw do
+  resources :redishashes do
+    member do
+      post "save_redis_value"
+      get "destroy_redis_value"
+      get "add_redis_value"
+    end
+  end
+
   resources :stringlists
 
-  resources :objecteds
+  resources :objecteds do
+    member do
+      get "destroy_redis_value"
+      get "add_redis_value"
+    end
+  end
 
   resources :records do
     member do

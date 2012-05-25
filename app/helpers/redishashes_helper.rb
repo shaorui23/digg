@@ -1,0 +1,2 @@
+module RedishashesHelper
+end

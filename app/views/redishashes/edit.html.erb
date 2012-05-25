@@ -1,0 +1,123 @@
+<h4>Key : <%= @redishash.redis_key %></h4>
+<table class="table table-condensed">
+  <tbody>
+    <tr>
+      <td style="width: 30%">Type</td>
+      <td><%= @redishash.type %></td>
+    </tr>
+    <tr>
+      <td style="width: 30%">TTL</td>
+      <td><%= @redishash.ttl %></td>
+    </tr>
+    <tr>
+      <td style="width: 30%">Encoding</td>
+      <td><%= "zipmap" %></td>
+    </tr>
+    <tr>
+      <td style="width: 30%">Size</td>
+      <td><%= @redishash.redis_value.split(',').size %></td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="widget">
+  <div class="header">
+    <h4>Fields and Values</h4>
+  </div>
+  <table class="table condensed-table" id="config-table">
+    <tbody>
+      <% Redis.current.hkeys(@redishash.redis_key).each do |field| %>
+        <tr>
+          <td style="width: 30%"><%= field %></td>
+          <td>
+            <div class="editable" id=<%= field %>><%= Redis.current.hmget(@redishash.redis_key, field)[0] %></div>
+          </td>
+          <td>
+            <%= link_to "Delete", {:action => "destroy_redis_value", :id => @redishash.id, :field => field, :controller => :redishashes}, :confirm => "Are you sure?" %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <div class="btns">
+    <button class="btn btn-primary" id="add-value">Add Value</button>
+    <%= link_to "Back", redishashes_path, {:class => "btn btn-primary"} %>
+  </div>
+</div>
+
+<div class='modal hide' id='add-value-confirm'>
+  <div class='modal-header'>
+    <a class='close' data-dismiss="modal">x</a>
+    <h3>Add Value</h3>
+  </div>
+  <div class='modal-body'>
+    <form class="well">
+      <label>Hash field</label>
+      <input type="text" class="span3" id="hash_field_input">
+      <label>Hash Value</label>
+      <input type="text" class="span3" id="hash_value_input">
+    </form>
+  </div>
+  <div class='modal-footer'>
+    <button class='btn btn-secondary' id='add-value-cancel-btn'>Cancel</button>
+    <button class='btn btn-primary' id='add-value-confirm-btn'>Submit</button>
+  </div>
+</div>
+
+
+<script type='text/javascript'>
+  $('#add-value').click(function() {
+    $('#add-value-confirm').modal({
+      backdrop: true,
+      keyboard: true
+    });
+  });
+
+  $('#add-value-cancel-btn').click(function(){
+    $('#add-value-confirm').modal('hide');
+  });
+
+  $('#add-value-confirm-btn').click(function() {
+    var id = <%= @redishash.id %>;
+    var field = document.getElementById("hash_field_input").value;
+    var value = document.getElementById("hash_value_input").value;
+    $.ajax({
+      url     : 'add_redis_value?value='+value+'&field='+field+'&id='+id,
+      success : function(){
+        $('#add-value-confirm').modal('hide');
+         window.location.reload();
+      }
+    });
+  });
+    
+  //////////////////////////////////////////////////////////////////////
+  // encapsulate the config widget
+  var configWidget = (function() {
+    function render(data) {
+      $('#config-table .editable').each(function() {
+        var editable = $(this)
+          , field = editable.attr('id');
+        var redishash_id = <%= @redishash.id %>;
+
+        var config = {
+          url           : '/redishashes/' + redishash_id + '/save_redis_value',
+          element_id    : 'id',
+          params        : 'field='+ field,
+          update_value  : 'value',
+          show_buttons  :  true,
+          save_button   : '<button style="margin-left:5px;"class="btn btn-primary">Save</button>',
+          cancel_button : '<button class="btn">Cancel</button>',
+          default_text  : '&nbsp'
+        };
+
+        editable.editInPlace(config);
+      });
+    }
+
+    return {
+      render: render
+    }
+  })();
+
+  configWidget.render()
+</script>

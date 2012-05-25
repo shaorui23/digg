@@ -1,9 +1,9 @@
-<%= form_for @redisset, :html => { :class => 'form-horizontal' }, :url => records_path(@redisset) do |f| %>
+<%= form_for @redishash, :html => { :class => 'form-horizontal' } do |f| %>
   <fieldset>
-    <legend><%= controller.action_name.capitalize %> Redis Set</legend>
+    <legend><%= controller.action_name.capitalize %> Redis Hash</legend>
 
     <div class="control-group">
-      <%= f.label "Key", :class => 'control-label' %>
+      <%= f.label "key", :class => 'control-label' %>
       <div class="controls">
         <%= f.text_field :name, :class => 'text_field' %>
       </div>
@@ -12,13 +12,13 @@
     <div class="control-group">
       <%= f.label "Value", :class => 'control-label' %>
       <div class="controls">
-        <%= f.text_area :redis_value, :class => 'text_area', :placeholder => "以逗号分割" %>
+        <%= f.text_area :redis_value, :class => 'text_area', :placeholder => "以逗号分割,换行表示新增field和value" %>
       </div>
     </div>
 
     <div class="form-actions">
       <%= f.submit nil, :class => 'btn btn-primary' %>
-      <%= link_to 'Cancel', records_path, :class => 'btn' %>
+      <%= link_to 'Cancel', redishashes_path, :class => 'btn' %>
     </div>
   </fieldset>
 <% end %>

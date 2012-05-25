@@ -1,0 +1,39 @@
+<h1>Redis Hash</h1>
+<form class="navbar-search pull-right"><div style="margin:0;padding:0;display:inline"><input name="utf8" type="hidden" value="&#x2713;" /></div>
+  <span id='filters_box'></span>
+  <hr class='filters_box' style='display:none'>
+  <input type="search" name="query" class="input-small" placeholder="Search.."><button style="margin-bottom:8px;" class="btn btn-primary" data-disable-with="<i class='icon-white icon-refresh'></i> Refresh" type="submit"><i class="icon-white icon-refresh"></i>Click</button>
+</form>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Key</th>
+      <th>Value</th>
+      <th>Type</th>
+      <th>Size</th>
+      <th>TTL</th>
+      <th>Created at</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @redishashes.each do |product| %>
+      <tr>
+        <td><%= link_to product.redis_key, redishash_path(product) %></td>
+        <td><%= product.redis_value %></td>
+        <td><%= product.redis_type %></td>
+        <td><%= product.redis_value.try(:size) %></td>
+        <td><%= product.ttl %></td>
+        <td><%= time_ago_in_words product.created_at %></td>
+        <td>
+          <%= link_to 'Edit', edit_redishash_path(product), :class => 'btn btn-mini' %>
+          <%= link_to 'Destroy', redishash_path(product), :method => :delete, :confirm => 'Are you sure?', :class => 'btn btn-mini btn-danger' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<%= paginate @redishashes, :theme => 'boot' %>
+
+<%= link_to 'New', new_redishash_path, :class => 'btn btn-primary' %>
